@@ -6,8 +6,6 @@ with open('data.csv', mode='w') as csv_file:
     writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
 
     writer.writeheader()
-    #writer.writerow({'emp_name': 'John Smith', 'dept': 'Accounting', 'birth_month': 'November'})
-    #writer.writerow({'emp_name': 'Erica Meyers', 'dept': 'IT', 'birth_month': 'March'})
     rob=open('fileWork.txt','r') #read object
     listme=rob.readlines()
     for x in listme:
