@@ -1,32 +1,39 @@
 import random
+import csv
 dicti={} #dictionary
-rob=open('fileWork.txt','r') #read object
-listme=rob.readlines()
-wob=open('data.csv','w') #write object
-for x in listme:
-    words=x.split()
-    for y in words:
-        ch=random.choice(y)
-        if(ch in dicti):
-            dicti[ch]=dicti.get(ch)+y.count(ch)
-        else:
-            dicti[ch]=y.count(ch)
-        print(ch,y.count(ch))
+with open('data.csv', mode='w') as csv_file:
+    fieldnames = ['character', 'frequency']
+    writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
 
-st='a'
-flag=0
-while st<='z':
-    for c in dicti:
-        if(c==st):
-            wob.write('%s,%s %(st,dicti[c])\n')
-            flag=1
+    writer.writeheader()
+    #writer.writerow({'emp_name': 'John Smith', 'dept': 'Accounting', 'birth_month': 'November'})
+    #writer.writerow({'emp_name': 'Erica Meyers', 'dept': 'IT', 'birth_month': 'March'})
+    rob=open('fileWork.txt','r') #read object
+    listme=rob.readlines()
+    for x in listme:
+        words=x.split()
+        for y in words:
+            ch=random.choice(y)
+            if(ch in dicti):
+                dicti[ch]=dicti.get(ch)+y.count(ch)
+            else:
+                dicti[ch]=y.count(ch)
+            print(ch,y.count(ch))
+    print (dicti)
+    st='a'
+    flag=0
+    while st<='z':
+        for c in dicti:
+            if(c==st):
+                row=[st,dicti[c]]
+                writer.writerow({'character':st,'frequency':dicti[c]})
+                flag=1
 
-    if(flag==0):
-        wob.write('%s, 0%(st)\n')
-    chr(ord(st) + 1)
-
+        if(flag==0):
+            writer.writerow({'character':st,'frequency':'0'})
+        st=chr(ord(st) + 1)
 rob.close()
-wob.close()
+
 
 
 
